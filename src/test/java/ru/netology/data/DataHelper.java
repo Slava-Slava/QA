@@ -15,172 +15,130 @@ public class DataHelper {
     public static Faker faker = new Faker(new Locale("en"));
 
     @Value
+    @RequiredArgsConstructor
     public static class Card {
         private String card;
-    }
-
-    @Value
-    public static class Month {
         private String month;
-    }
-
-    @Value
-    public static class Year {
         private String year;
-    }
-
-    @Value
-    public static class Owner {
         private String owner;
-    }
+        private String CVC;
 
-    @Value
-    public static class CVC {
-        private String cvc;
-    }
+        public static String getApprovedCard() {
+            return ("1111 2222 3333 4444");
+        }
 
-    public static Card approvedCard() {
-        return new Card("1111 2222 3333 4444");
-    }
+        public static String getApprovedStatus() {
+            return ("APPROVED");
+        }
 
-    public static Card approvedStatus() {
-        return new Card("APPROVED");
-    }
+        public static String getDeclinedCard() {
+            return ("5555 6666 7777 8888");
+        }
 
-    public static Card declinedCard() {
-        return new Card("5555 6666 7777 8888");
-    }
+        public static String getDeclinedStatus() {
+            return ("DECLINED");
+        }
 
-    public static Card declinedStatus() {
-        return new Card("DECLINED");
-    }
+        public static String getRandomCard() {
+            return (faker.business().creditCardNumber());
+        }
 
-    public static Card randomCard() {
-        return new Card(faker.business().creditCardNumber());
-    }
+        public static String getLatinCard() {
+            return ("ssss ssss ssss ssss");
+        }
 
-    public static Card latinCard() {
-        return new Card("ssss ssss ssss ssss");
-    }
+        public static String getSpecialCharactersCard() {
+            return ("**** **** **** ****");
+        }
 
-    public static Card specialCharactersCard() {
-        return new Card("**** **** **** ****");
-    }
+        public static String getShortCard() {
+            return ("1111 2222 3333 444");
+        }
 
-    public static Card shortCard() {
-        return new Card("1111 2222 3333 444");
-    }
+        public static String getLongCard() {
+            return ("1111 2222 3333 4444 4");
+        }
 
-    public static Card longCard() {
-        return new Card("1111 2222 3333 4444 4");
-    }
+        public static String getValidMonth() {
+            String validMonth = LocalDate.now().format(DateTimeFormatter.ofPattern("MM"));
+            return (validMonth);
+        }
 
-    public static Month validMonth() {
-        String validMonth = LocalDate.now().format(DateTimeFormatter.ofPattern("MM"));
-        return new Month(validMonth);
-    }
+        public static String getEnterNullValue() {
+            return ("0");
+        }
 
-    public static Month invalidMonth() {
-        return new Month("0");
-    }
+        public static String getLatinLanguageValue() {
+            return ("SS");
+        }
 
-    public static Month latinMonth() {
-        return new Month("SS");
-    }
+        public static String getEmptyFieldValue() {
+            return ("");
+        }
 
-    public static Month specialCharactersMonth() {
-        return new Month("**");
-    }
+        public static String getSpecialCharactersValue() {
+            return ("**");
+        }
 
-    public static Month longMonth() {
-        return new Month("13");
-    }
+        public static String getLongMonth() {
+            return ("13");
+        }
 
-    public static Year validYear() {
-        String validYear = LocalDate.now().plusMonths(1).format(DateTimeFormatter.ofPattern("yy"));
-        return new Year(validYear);
-    }
+        public static String getValidYear() {
+            String validYear = LocalDate.now().plusMonths(1).format(DateTimeFormatter.ofPattern("yy"));
+            return (validYear);
+        }
 
-    public static Year latinYear() {
-        return new Year("SS");
-    }
+        public static String getInvalidYear() {
+            String invalidYear = LocalDate.now().minusYears(1).format(DateTimeFormatter.ofPattern("yy"));
+            return (invalidYear);
+        }
 
-    public static Year specialCharactersYear() {
-        return new Year("**");
-    }
+        public static String getFutureYear() {
+            String futureYear = LocalDate.now().plusYears(6).format(DateTimeFormatter.ofPattern("yy"));
+            return (futureYear);
+        }
 
-    public static Year invalidYear() {
-        String invalidYear = LocalDate.now().minusYears(1).format(DateTimeFormatter.ofPattern("yy"));
-        return new Year(invalidYear);
-    }
+        public static String getValidOwner() {
+            return (faker.name().fullName());
+        }
 
-    public static Year futureYear() {
-        String futureYear = LocalDate.now().plusYears(6).format(DateTimeFormatter.ofPattern("yy"));
-        return new Year(futureYear);
-    }
+        public static String getCyrillicOwner() {
+            Faker faker = new Faker(new Locale("ru"));
+            return (faker.name().fullName());
+        }
 
-    public static Owner validOwner() {
-        return new Owner(faker.name().fullName());
-    }
+        public static String getSpecialCharactersOwner() {
+            return ("***** ******");
+        }
 
-    public static Owner cyrillicOwner() {
-        Faker faker = new Faker(new Locale("ru"));
-        return new Owner(faker.name().fullName());
-    }
+        public static String getDashSurnameOwner() {
+            return ("Julius Caesar-Caesar");
+        }
 
-    public static Owner specialCharactersOwner() {
-        return new Owner("***** ******");
-    }
+        public static String getLongOwner() {
+            return ("Julius CaesarCaesarCaesarCaesarCaesarCaesarCaesarCaesarCaesarCaesarCaesarCaesar");
+        }
 
-    public static Owner dashSurnameOwner() {
-        return new Owner("Julius Caesar-Caesar");
-    }
+        public static String getValidCVC() {
+            return (faker.number().digits(3));
+        }
 
-    public static Owner longOwner() {
-        return new Owner("Julius CaesarCaesarCaesarCaesarCaesarCaesarCaesarCaesarCaesarCaesarCaesarCaesar");
-    }
+        public static String getLatinCVC() {
+            return ("SSS");
+        }
 
-    public static CVC validCVC() {
-        return new CVC(faker.number().digits(3));
-    }
+        public static String getSpecialCharactersCVC() {
+            return ("***");
+        }
 
-    public static CVC invalidCVC() {
-        return new CVC("0");
-    }
+        public static String getLongCVC() {
+            return (faker.number().digits(4));
+        }
 
-    public static CVC latinCVC() {
-        return new CVC("SSS");
-    }
+        public static String getShortCVC() {
+            return (faker.number().digits(2));
+        }
 
-    public static CVC specialCharactersCVC() {
-        return new CVC("***");
-    }
-
-    public static CVC longCVC() {
-        return new CVC(faker.number().digits(4));
-    }
-
-    public static CVC shortCVC() {
-        return new CVC(faker.number().digits(2));
-    }
-
-    public static Card emptyCard() {
-        return new Card("");
-    }
-
-    public static Month emptyMonth() {
-        return new Month("");
-    }
-
-    public static Year emptyYear() {
-        return new Year("");
-    }
-
-    public static Owner emptyOwner() {
-        return new Owner("");
-    }
-
-    public static CVC emptyCVC() {
-        return new CVC("");
     }
 }

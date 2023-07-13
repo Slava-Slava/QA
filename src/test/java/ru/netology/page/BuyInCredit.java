@@ -27,14 +27,14 @@ public class BuyInCredit {
     private SelenideElement bankApproved = $("div.notification_status_ok");
     private SelenideElement bankDenied = $("div.notification_status_error");
 
-    public void openPaymentGate() {
+    public void checkOpenPaymentGate() {
         paymentButton.click();
         paymentByCard
                 .shouldBe(visible)
                 .shouldHave(text("Кредит по данным карты"));
     }
 
-    public void applicationForm(String card, String month, String year, String owner, String cvc) {
+    public void checkApplicationForm(String card, String month, String year, String owner, String cvc) {
         cardNumber.setValue(card);
         monthValid.setValue(month);
         yearValid.setValue(year);
@@ -43,7 +43,7 @@ public class BuyInCredit {
         continueButton.click();
     }
 
-    public void blankFormError() {
+    public void setBlankFormError() {
         continueButton.click();
         cardNumberError.shouldBe(visible);
         monthError.shouldBe(visible);
@@ -52,11 +52,11 @@ public class BuyInCredit {
         cvcError.shouldBe(visible);
     }
 
-    public void transactionApprovedBank() {
+    public void waitEventTransactionApprovedBank() {
         bankApproved.shouldBe(visible, Duration.ofSeconds(25));
     }
 
-    public void transactionDeniedBank() {
+    public void waitEventTransactionDeniedBank() {
         bankDenied.shouldBe(visible, Duration.ofSeconds(25));
     }
 

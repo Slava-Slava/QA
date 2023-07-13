@@ -14,26 +14,23 @@ public class SQLHelper {
 
     private static QueryRunner runner = new QueryRunner();
 
-    private static Connection getConn() throws SQLException {
+    @SneakyThrows
+    public static Connection getConn() {
         return DriverManager.getConnection("jdbc:mysql://localhost:3306/app", "app", "pass");
     }
 
     @SneakyThrows
-    public static String buyPaymentStatus() {
-        QueryRunner runner = new QueryRunner();
-        String SqlStatus = "SELECT status FROM payment_entity";
-        try (var connection = getConn()) {
-            return runner.query(connection, SqlStatus, new ScalarHandler<>());
-        }
+    public static String getBuyPaymentStatus() {
+        var runner = new QueryRunner();
+        var SqlStatus = "SELECT status FROM payment_entity";
+        return runner.query(getConn(), SqlStatus, new ScalarHandler<>());
     }
 
     @SneakyThrows
-    public static String buyCreditPaymentStatus() {
-        QueryRunner runner = new QueryRunner();
-        String SqlStatus = "SELECT status FROM credit_request_entity";
-        try (var connection = getConn()) {
-            return runner.query(connection, SqlStatus, new ScalarHandler<>());
-        }
+    public static String getBuyCreditPaymentStatus() {
+        var runner = new QueryRunner();
+        var SqlStatus = "SELECT status FROM credit_request_entity";
+        return runner.query(getConn(), SqlStatus, new ScalarHandler<>());
     }
 
     @SneakyThrows
