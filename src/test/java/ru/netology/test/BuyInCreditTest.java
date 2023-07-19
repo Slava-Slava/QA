@@ -5,7 +5,7 @@ import io.qameta.allure.selenide.AllureSelenide;
 import org.junit.jupiter.api.*;
 import ru.netology.data.DataHelper;
 import ru.netology.data.SQLHelper;
-import ru.netology.page.BuyInCredit;
+import ru.netology.page.BuyInCreditPage;
 
 import static com.codeborne.selenide.Selenide.open;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -15,7 +15,8 @@ public class BuyInCreditTest {
     String validMonth = DataHelper.Card.getValidMonth();
     String validYear = DataHelper.Card.getValidYear();
     String validOwner = DataHelper.Card.getValidOwner();
-    String validCvc = DataHelper.Card.getValidCVC();
+    //    String validCvc = DataHelper.Card.getValidCVC();
+    String validCvc = DataHelper.Card.getDigitCvc(3);
 
     @BeforeAll
     static void setUpAll() {
@@ -39,15 +40,15 @@ public class BuyInCreditTest {
 
     @Test
     void openingFormPaymentByCard() {
-        var buyInCredit = new BuyInCredit();
+        var buyInCredit = new BuyInCreditPage();
         buyInCredit.checkOpenPaymentGate();
     }
 
     @Test
     void approvedCard() {
-        var buyInCredit = new BuyInCredit();
+        var buyInCredit = new BuyInCreditPage();
         buyInCredit.checkOpenPaymentGate();
-        buyInCredit.checkApplicationForm(validCard, validMonth, validYear, validOwner, validCvc);
+        buyInCredit.setApplicationForm(validCard, validMonth, validYear, validOwner, validCvc);
         buyInCredit.waitEventTransactionApprovedBank();
         assertEquals(DataHelper.Card.getApprovedStatus(), SQLHelper.getBuyCreditPaymentStatus());
     }
@@ -55,9 +56,9 @@ public class BuyInCreditTest {
     @Test
     void deniedCard() {
         var declinedCard = DataHelper.Card.getDeclinedCard();
-        var buyInCredit = new BuyInCredit();
+        var buyInCredit = new BuyInCreditPage();
         buyInCredit.checkOpenPaymentGate();
-        buyInCredit.checkApplicationForm(declinedCard, validMonth, validYear, validOwner, validCvc);
+        buyInCredit.setApplicationForm(declinedCard, validMonth, validYear, validOwner, validCvc);
         buyInCredit.waitEventTransactionDeniedBank();
         assertEquals(DataHelper.Card.getDeclinedStatus(), SQLHelper.getBuyCreditPaymentStatus());
     }
@@ -65,199 +66,201 @@ public class BuyInCreditTest {
     @Test
     void enteringRandomCardNumber() {
         var card = DataHelper.Card.getRandomCard();
-        var buyInCredit = new BuyInCredit();
+        var buyInCredit = new BuyInCreditPage();
         buyInCredit.checkOpenPaymentGate();
-        buyInCredit.checkApplicationForm(card, validMonth, validYear, validOwner, validCvc);
+        buyInCredit.setApplicationForm(card, validMonth, validYear, validOwner, validCvc);
         buyInCredit.waitEventTransactionDeniedBank();
     }
 
     @Test
     void enteringCardNumberInLatin() {
         var card = DataHelper.Card.getLatinCard();
-        var buyInCredit = new BuyInCredit();
+        var buyInCredit = new BuyInCreditPage();
         buyInCredit.checkOpenPaymentGate();
-        buyInCredit.checkApplicationForm(card, validMonth, validYear, validOwner, validCvc);
-        buyInCredit.setCardNumberError();
+        buyInCredit.setApplicationForm(card, validMonth, validYear, validOwner, validCvc);
+        buyInCredit.checkCardNumberError();
     }
 
     @Test
     void enteringCardNumberInSpecialCharacters() {
         var card = DataHelper.Card.getSpecialCharactersCard();
-        var buyInCredit = new BuyInCredit();
+        var buyInCredit = new BuyInCreditPage();
         buyInCredit.checkOpenPaymentGate();
-        buyInCredit.checkApplicationForm(card, validMonth, validYear, validOwner, validCvc);
-        buyInCredit.setCardNumberError();
+        buyInCredit.setApplicationForm(card, validMonth, validYear, validOwner, validCvc);
+        buyInCredit.checkCardNumberError();
     }
 
     @Test
     void enteringCardNumberShort() {
         var card = DataHelper.Card.getShortCard();
-        var buyInCredit = new BuyInCredit();
+        var buyInCredit = new BuyInCreditPage();
         buyInCredit.checkOpenPaymentGate();
-        buyInCredit.checkApplicationForm(card, validMonth, validYear, validOwner, validCvc);
-        buyInCredit.setCardNumberError();
+        buyInCredit.setApplicationForm(card, validMonth, validYear, validOwner, validCvc);
+        buyInCredit.checkCardNumberError();
     }
 
     @Test
     void enteringCardNumberLong() {
         var card = DataHelper.Card.getLongCard();
-        var buyInCredit = new BuyInCredit();
+        var buyInCredit = new BuyInCreditPage();
         buyInCredit.checkOpenPaymentGate();
-        buyInCredit.checkApplicationForm(card, validMonth, validYear, validOwner, validCvc);
-        buyInCredit.setCardNumberError();
+        buyInCredit.setApplicationForm(card, validMonth, validYear, validOwner, validCvc);
+        buyInCredit.checkCardNumberError();
     }
 
     @Test
     void enterMonthSingleDigit() {
         var month = DataHelper.Card.getEnterNullValue();
-        var buyInCredit = new BuyInCredit();
+        var buyInCredit = new BuyInCreditPage();
         buyInCredit.checkOpenPaymentGate();
-        buyInCredit.checkApplicationForm(validCard, month, validYear, validOwner, validCvc);
-        buyInCredit.setMonthError();
+        buyInCredit.setApplicationForm(validCard, month, validYear, validOwner, validCvc);
+        buyInCredit.checkMonthError();
     }
 
     @Test
     void enteringMonthInLetters() {
         var month = DataHelper.Card.getLatinLanguageValue();
-        var buyInCredit = new BuyInCredit();
+        var buyInCredit = new BuyInCreditPage();
         buyInCredit.checkOpenPaymentGate();
-        buyInCredit.checkApplicationForm(validCard, month, validYear, validOwner, validCvc);
-        buyInCredit.setMonthError();
+        buyInCredit.setApplicationForm(validCard, month, validYear, validOwner, validCvc);
+        buyInCredit.checkMonthError();
     }
 
     @Test
     void enteringMonthInSpecialCharacters() {
         var month = DataHelper.Card.getSpecialCharactersValue();
-        var buyInCredit = new BuyInCredit();
+        var buyInCredit = new BuyInCreditPage();
         buyInCredit.checkOpenPaymentGate();
-        buyInCredit.checkApplicationForm(validCard, month, validYear, validOwner, validCvc);
-        buyInCredit.setMonthError();
+        buyInCredit.setApplicationForm(validCard, month, validYear, validOwner, validCvc);
+        buyInCredit.checkMonthError();
     }
 
     @Test
     void enteringMonthInLong() {
         var month = DataHelper.Card.getLongMonth();
-        var buyInCredit = new BuyInCredit();
+        var buyInCredit = new BuyInCreditPage();
         buyInCredit.checkOpenPaymentGate();
-        buyInCredit.checkApplicationForm(validCard, month, validYear, validOwner, validCvc);
-        buyInCredit.setMonthError();
+        buyInCredit.setApplicationForm(validCard, month, validYear, validOwner, validCvc);
+        buyInCredit.checkMonthError();
     }
 
     @Test
     void enteringYearInLatin() {
         var year = DataHelper.Card.getLatinLanguageValue();
-        var buyInCredit = new BuyInCredit();
+        var buyInCredit = new BuyInCreditPage();
         buyInCredit.checkOpenPaymentGate();
-        buyInCredit.checkApplicationForm(validCard, validMonth, year, validOwner, validCvc);
-        buyInCredit.setYearError();
+        buyInCredit.setApplicationForm(validCard, validMonth, year, validOwner, validCvc);
+        buyInCredit.checkYearError();
     }
 
     @Test
     void enteringYearWithSpecialCharacters() {
         var year = DataHelper.Card.getSpecialCharactersValue();
-        var buyInCredit = new BuyInCredit();
+        var buyInCredit = new BuyInCreditPage();
         buyInCredit.checkOpenPaymentGate();
-        buyInCredit.checkApplicationForm(validCard, validMonth, year, validOwner, validCvc);
-        buyInCredit.setYearError();
+        buyInCredit.setApplicationForm(validCard, validMonth, year, validOwner, validCvc);
+        buyInCredit.checkYearError();
     }
 
     @Test
     void enterLastYear() {
         var year = DataHelper.Card.getInvalidYear();
-        var buyInCredit = new BuyInCredit();
+        var buyInCredit = new BuyInCreditPage();
         buyInCredit.checkOpenPaymentGate();
-        buyInCredit.checkApplicationForm(validCard, validMonth, year, validOwner, validCvc);
-        buyInCredit.setExpiredCardError();
+        buyInCredit.setApplicationForm(validCard, validMonth, year, validOwner, validCvc);
+        buyInCredit.checkExpiredCardError();
     }
 
     @Test
     void enterYearPlusSixYearsBeforeExpiration() {
         var year = DataHelper.Card.getFutureYear();
-        var buyInCredit = new BuyInCredit();
+        var buyInCredit = new BuyInCreditPage();
         buyInCredit.checkOpenPaymentGate();
-        buyInCredit.checkApplicationForm(validCard, validMonth, year, validOwner, validCvc);
-        buyInCredit.setYearError();
+        buyInCredit.setApplicationForm(validCard, validMonth, year, validOwner, validCvc);
+        buyInCredit.checkYearError();
     }
 
     @Test
     void cardholderInputInCyrillic() {
         var owner = DataHelper.Card.getCyrillicOwner();
-        var buyInCredit = new BuyInCredit();
+        var buyInCredit = new BuyInCreditPage();
         buyInCredit.checkOpenPaymentGate();
-        buyInCredit.checkApplicationForm(validCard, validMonth, validYear, owner, validCvc);
-        buyInCredit.setOwnerError();
+        buyInCredit.setApplicationForm(validCard, validMonth, validYear, owner, validCvc);
+        buyInCredit.checkOwnerError();
     }
 
     @Test
     void enteringOwnerWithSpecialCharacters() {
         var owner = DataHelper.Card.getSpecialCharactersOwner();
-        var buyInCredit = new BuyInCredit();
+        var buyInCredit = new BuyInCreditPage();
         buyInCredit.checkOpenPaymentGate();
-        buyInCredit.checkApplicationForm(validCard, validMonth, validYear, owner, validCvc);
-        buyInCredit.setOwnerError();
+        buyInCredit.setApplicationForm(validCard, validMonth, validYear, owner, validCvc);
+        buyInCredit.checkOwnerError();
     }
 
     @Test
     void enterOwnersLastNameThroughDash() {
         var owner = DataHelper.Card.getDashSurnameOwner();
-        var buyInCredit = new BuyInCredit();
+        var buyInCredit = new BuyInCreditPage();
         buyInCredit.checkOpenPaymentGate();
-        buyInCredit.checkApplicationForm(validCard, validMonth, validYear, owner, validCvc);
-        buyInCredit.setOwnerError();
+        buyInCredit.setApplicationForm(validCard, validMonth, validYear, owner, validCvc);
+        buyInCredit.checkOwnerError();
     }
 
     @Test
     void ownerInputMoreThan64Characters() {
         var owner = DataHelper.Card.getLongOwner();
-        var buyInCredit = new BuyInCredit();
+        var buyInCredit = new BuyInCreditPage();
         buyInCredit.checkOpenPaymentGate();
-        buyInCredit.checkApplicationForm(validCard, validMonth, validYear, owner, validCvc);
-        buyInCredit.setOwnerError();
+        buyInCredit.setApplicationForm(validCard, validMonth, validYear, owner, validCvc);
+        buyInCredit.checkOwnerError();
     }
 
     @Test
     void enteringWrongCvcCode() {
         var cvc = DataHelper.Card.getEnterNullValue();
-        var buyInCredit = new BuyInCredit();
+        var buyInCredit = new BuyInCreditPage();
         buyInCredit.checkOpenPaymentGate();
-        buyInCredit.checkApplicationForm(validCard, validMonth, validYear, validOwner, cvc);
-        buyInCredit.setCvcError();
+        buyInCredit.setApplicationForm(validCard, validMonth, validYear, validOwner, cvc);
+        buyInCredit.checkCvcError();
     }
 
     @Test
     void enterCvcCodeInLatin() {
         var cvc = DataHelper.Card.getLatinCVC();
-        var buyInCredit = new BuyInCredit();
+        var buyInCredit = new BuyInCreditPage();
         buyInCredit.checkOpenPaymentGate();
-        buyInCredit.checkApplicationForm(validCard, validMonth, validYear, validOwner, cvc);
-        buyInCredit.setCvcError();
+        buyInCredit.setApplicationForm(validCard, validMonth, validYear, validOwner, cvc);
+        buyInCredit.checkCvcError();
     }
 
     @Test
     void enterCvcCodeInSpecialCharacters() {
         var cvc = DataHelper.Card.getSpecialCharactersCVC();
-        var buyInCredit = new BuyInCredit();
+        var buyInCredit = new BuyInCreditPage();
         buyInCredit.checkOpenPaymentGate();
-        buyInCredit.checkApplicationForm(validCard, validMonth, validYear, validOwner, cvc);
-        buyInCredit.setCvcError();
+        buyInCredit.setApplicationForm(validCard, validMonth, validYear, validOwner, cvc);
+        buyInCredit.checkCvcError();
     }
 
     @Test
     void cvcCodeInput4Characters() {
-        var cvc = DataHelper.Card.getLongCVC();
-        var buyInCredit = new BuyInCredit();
+//        var cvc = DataHelper.Card.getLongCVC();
+        var cvc = DataHelper.Card.getDigitCvc(4);
+        var buyInCredit = new BuyInCreditPage();
         buyInCredit.checkOpenPaymentGate();
-        buyInCredit.checkApplicationForm(validCard, validMonth, validYear, validOwner, cvc);
-        buyInCredit.setCvcError();
+        buyInCredit.setApplicationForm(validCard, validMonth, validYear, validOwner, cvc);
+        buyInCredit.checkCvcError();
     }
 
     @Test
     void cvcCodeInput2Characters() {
-        var cvc = DataHelper.Card.getShortCVC();
-        var buyInCredit = new BuyInCredit();
+//        var cvc = DataHelper.Card.getShortCVC();
+        var cvc = DataHelper.Card.getDigitCvc(2);
+        var buyInCredit = new BuyInCreditPage();
         buyInCredit.checkOpenPaymentGate();
-        buyInCredit.checkApplicationForm(validCard, validMonth, validYear, validOwner, cvc);
-        buyInCredit.setCvcError();
+        buyInCredit.setApplicationForm(validCard, validMonth, validYear, validOwner, cvc);
+        buyInCredit.checkCvcError();
     }
 
     @Test
@@ -267,10 +270,10 @@ public class BuyInCreditTest {
         var emptyYear = DataHelper.Card.getEmptyFieldValue();
         var emptyOwner = DataHelper.Card.getEmptyFieldValue();
         var emptyCvc = DataHelper.Card.getEmptyFieldValue();
-        var buyInCredit = new BuyInCredit();
+        var buyInCredit = new BuyInCreditPage();
         buyInCredit.checkOpenPaymentGate();
-        buyInCredit.checkApplicationForm(emptyCard, emptyMonth, emptyYear, emptyOwner, emptyCvc);
-        buyInCredit.setBlankFormError();
+        buyInCredit.setApplicationForm(emptyCard, emptyMonth, emptyYear, emptyOwner, emptyCvc);
+        buyInCredit.checkBlankFormError();
     }
 
 }

@@ -24,19 +24,19 @@ public class DataHelper {
         private String CVC;
 
         public static String getApprovedCard() {
-            return ("1111 2222 3333 4444");
+            return "1111 2222 3333 4444";
         }
 
         public static String getApprovedStatus() {
-            return ("APPROVED");
+            return "APPROVED";
         }
 
         public static String getDeclinedCard() {
-            return ("5555 6666 7777 8888");
+            return "5555 6666 7777 8888";
         }
 
         public static String getDeclinedStatus() {
-            return ("DECLINED");
+            return "DECLINED";
         }
 
         public static String getRandomCard() {
@@ -44,19 +44,19 @@ public class DataHelper {
         }
 
         public static String getLatinCard() {
-            return ("ssss ssss ssss ssss");
+            return "ssss ssss ssss ssss";
         }
 
         public static String getSpecialCharactersCard() {
-            return ("**** **** **** ****");
+            return "**** **** **** ****";
         }
 
         public static String getShortCard() {
-            return ("1111 2222 3333 444");
+            return "1111 2222 3333 444";
         }
 
         public static String getLongCard() {
-            return ("1111 2222 3333 4444 4");
+            return "1111 2222 3333 4444 4";
         }
 
         public static String getValidMonth() {
@@ -65,23 +65,23 @@ public class DataHelper {
         }
 
         public static String getEnterNullValue() {
-            return ("0");
+            return "0";
         }
 
         public static String getLatinLanguageValue() {
-            return ("SS");
+            return "SS";
         }
 
         public static String getEmptyFieldValue() {
-            return ("");
+            return "";
         }
 
         public static String getSpecialCharactersValue() {
-            return ("**");
+            return "**";
         }
 
         public static String getLongMonth() {
-            return ("13");
+            return "13";
         }
 
         public static String getValidYear() {
@@ -109,36 +109,40 @@ public class DataHelper {
         }
 
         public static String getSpecialCharactersOwner() {
-            return ("***** ******");
+            return "***** ******";
         }
 
         public static String getDashSurnameOwner() {
-            return ("Julius Caesar-Caesar");
+            return "Julius Caesar-Caesar";
         }
 
         public static String getLongOwner() {
-            return ("Julius CaesarCaesarCaesarCaesarCaesarCaesarCaesarCaesarCaesarCaesarCaesarCaesar");
+            return "Julius CaesarCaesarCaesarCaesarCaesarCaesarCaesarCaesarCaesarCaesarCaesarCaesar";
         }
 
-        public static String getValidCVC() {
-            return (faker.number().digits(3));
-        }
 
         public static String getLatinCVC() {
-            return ("SSS");
+            return "SSS";
         }
 
         public static String getSpecialCharactersCVC() {
-            return ("***");
+            return "***";
         }
 
-        public static String getLongCVC() {
-            return (faker.number().digits(4));
-        }
-
-        public static String getShortCVC() {
-            return (faker.number().digits(2));
+        public static String getDigitCvc(int count) {
+            return (faker.number().digit());
         }
 
     }
+
+//        public static String getLongCVC() {
+//            return (faker.number().digits(4));
+//        }
+//        public static String getShortCVC() {
+//            return (faker.number().digits(2));
+//        }
+//        public static String getValidCVC() {
+//            return (faker.number().digits(3));
+//        }
+
 }

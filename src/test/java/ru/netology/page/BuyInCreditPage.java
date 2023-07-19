@@ -9,7 +9,7 @@ import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.$;
 
-public class BuyInCredit {
+public class BuyInCreditPage {
     private SelenideElement paymentButton = $(byText("Купить в кредит"));
     private SelenideElement paymentByCard = $(byText("Кредит по данным карты"));
     private SelenideElement cardNumber = $(byText("Номер карты")).parent().$(".input__control");
@@ -34,7 +34,7 @@ public class BuyInCredit {
                 .shouldHave(text("Кредит по данным карты"));
     }
 
-    public void checkApplicationForm(String card, String month, String year, String owner, String cvc) {
+    public void setApplicationForm(String card, String month, String year, String owner, String cvc) {
         cardNumber.setValue(card);
         monthValid.setValue(month);
         yearValid.setValue(year);
@@ -43,7 +43,7 @@ public class BuyInCredit {
         continueButton.click();
     }
 
-    public void setBlankFormError() {
+    public void checkBlankFormError() {
         continueButton.click();
         cardNumberError.shouldBe(visible);
         monthError.shouldBe(visible);
@@ -60,28 +60,28 @@ public class BuyInCredit {
         bankDenied.shouldBe(visible, Duration.ofSeconds(25));
     }
 
-    public void setCardNumberError() {
+    public void checkCardNumberError() {
         cardNumberError.shouldBe(visible);
 
     }
 
-    public void setMonthError() {
+    public void checkMonthError() {
         monthError.shouldBe(visible);
     }
 
-    public void setYearError() {
+    public void checkYearError() {
         yearError.shouldBe(visible);
     }
 
-    public void setExpiredCardError() {
+    public void checkExpiredCardError() {
         expiredCardError.shouldBe(visible);
     }
 
-    public void setOwnerError() {
+    public void checkOwnerError() {
         ownerError.shouldBe(visible);
     }
 
-    public void setCvcError() {
+    public void checkCvcError() {
         cvcError.shouldBe(visible);
     }
 }
